@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inauzwa/pages/login.dart';
 import 'package:inauzwa/pages/register.dart';
 
 void main() => runApp(MyApp());
@@ -10,6 +11,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Inauzwa',
+      routes: {
+        '/login': (BuildContext context) => LoginPage(),
+        '/register': (BuildContext context) => RegisterPage()
+      },
       theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.cyan[400],

@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
-class RegisterPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _LoginPageState extends State<LoginPage> {
   final _formkey = GlobalKey<FormState>();
-  
+
   bool _obscureText = true;
 
-  String _phoneNumber, _email, _password;
+  String  _email, _password;
 
   void _submit() {
   final form = _formkey.currentState;
 
   if (form.validate()) {
     form.save();
-    print('Username: $_phoneNumber, Email: $_email, Password: $_password');
+    print('Email: $_email, Password: $_password');
   }
 }
 
@@ -26,7 +26,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('REGISTER'),
+        title: Text('Login'),
         
       ),
       body: Container(
@@ -37,19 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
               key: _formkey,
               child: Column(
                 children: <Widget>[
-                  Text('Register', style: Theme.of(context).textTheme.headline,),
-                  Padding(padding: EdgeInsets.only(top: 20.0),
-                  child: TextFormField(
-                    onSaved: (val) => _phoneNumber=val,
-                    validator: (val) => val.length < 10 ? 'Phone number too short': null,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Phone Number',
-                      hintText: 'Enter Phone Number to Register',
-                      icon: Icon(Icons.face, color: Colors.grey,)
-                    ),
-                  ),
-                  ),
+                  Text('Login', style: Theme.of(context).textTheme.headline,),
                   Padding(padding: EdgeInsets.only(top: 20.0),
                   child: TextFormField(
                     onSaved: (val) => _email=val,
@@ -66,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: TextFormField(
                     obscureText: _obscureText,
                     onSaved: (val) => _password=val,
-                    validator: (val) => val.length < 6 ? 'Phone number too short': null,                    
+                    validator: (val) => val.length < 6 ? 'PASSWORD too short': null,                    
                     decoration: InputDecoration(
                       suffixIcon: GestureDetector(
                         onTap: () {
@@ -74,10 +62,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                         child: Icon(
                           _obscureText ? Icons.visibility : Icons.visibility_off),
-                      ),                
+                      ),
                       border: OutlineInputBorder(),
                       labelText: 'Password',
-                      hintText: 'Enter Your Password to Register',
+                      hintText: 'Enter Your Password to Login',
                       icon: Icon(Icons.lock, color: Colors.grey,)
                     ),
                   ),
@@ -87,7 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Column(
                       children: <Widget>[
                         RaisedButton(
-                          child: Text('Submit', style: Theme.of(context).textTheme.body1.copyWith(color: Colors.black),),
+                          child: Text('Submit', style: Theme.of(context).textTheme.body1.copyWith(color: Colors.deepOrange),),
                           elevation: 8.0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0))
@@ -96,8 +84,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           onPressed: _submit,
                         ),
                         FlatButton(
-                          child: Text('Existing user? Login'),
-                          onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
+                          child: Text('New user? Register'),
+                          onPressed: () => Navigator.pushReplacementNamed(context, '/register'),
                         )
                       ],
                     ),
