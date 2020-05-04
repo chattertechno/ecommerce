@@ -48,6 +48,9 @@
       "via": "users",
       "plugin": "users-permissions",
       "configurable": false
+    },
+    "phonenumber": {
+      "type": "integer"
     }
   },
   "collectionName": "users-permissions_user"

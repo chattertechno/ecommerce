@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:inauzwa/models/app_state.dart';
 import 'package:inauzwa/pages/login.dart';
+import 'package:inauzwa/pages/productspage.dart';
 import 'package:inauzwa/pages/register.dart';
+import 'package:inauzwa/redux/reducers.dart';
+import 'package:redux/redux.dart';
+import 'package:redux_thunk/redux_thunk.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  final store = Store<AppState>(appReducer, initialState: AppState.initial(), middleware: [thunkMiddleware]);
+  runApp(MyApp(store: store));
+}
 
 class MyApp extends StatelessWidget {
+  final Store<AppState> store;
+  MyApp({ this.store });
   @override
  
   Widget build(BuildContext context) {
@@ -12,6 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Inauzwa',
       routes: {
+        '/products': (BuildContext context) => ProductsPage(),
         '/login': (BuildContext context) => LoginPage(),
         '/register': (BuildContext context) => RegisterPage()
       },

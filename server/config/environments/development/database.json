@@ -2,13 +2,18 @@
   "defaultConnection": "default",
   "connections": {
     "default": {
-      "connector": "strapi-hook-bookshelf",
+      "connector": "strapi-hook-mongoose",
       "settings": {
-        "client": "sqlite",
-        "filename": ".tmp/data.db"
+        "client": "mongo",
+        "host": "@chatter-eka3c.mongodb.net",
+        "port": 27017,
+        "database": "server",
+        "username": "reneekrom",
+        "password": "reneekrom11",
+        "srv": true
       },
       "options": {
-        "useNullAsDefault": true
+        "ssl": true
       }
     }
   }

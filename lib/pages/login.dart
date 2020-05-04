@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -6,9 +10,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _scaffoldkey = GlobalKey<ScaffoldState>();
   final _formkey = GlobalKey<FormState>();
 
-  bool _obscureText = true;
+  bool _isSubmitting, _obscureText = true;
 
   String  _email, _password;
 
@@ -17,14 +22,67 @@ class _LoginPageState extends State<LoginPage> {
 
   if (form.validate()) {
     form.save();
-    print('Email: $_email, Password: $_password');
+    _registerUser();
   }
+}
+
+void _registerUser() async {
+  setState(() => _isSubmitting = true);
+  http.Response response = await http.post('http://192.168.10.133:1337/auth/local', 
+  body: {
+    "identifier": _email,
+    "password": _password,
+
+  });
+  final responseData = json.decode(response.body);
+  if (response.statusCode == 200) {
+  setState(() => _isSubmitting = false);
+  _storeUserData(responseData);
+  _showSuccessSnack();
+  _redirectUser();
+  print(responseData);
+  } else {
+     setState(() => _isSubmitting = false);
+     final String errorMsg = responseData['message'];
+    _showErrorSnack(errorMsg);
+  }
+}
+
+void _storeUserData(responseData) async {
+  final prefs = await SharedPreferences.getInstance();
+ Map<String, dynamic> user = responseData['user'];
+ user.putIfAbsent('jwt', () => responseData['jwt']);
+ prefs.setString('user', json.encode(user));
+}
+
+void _showSuccessSnack() {
+  final snackbar = SnackBar(
+    content: Text('User  successfull logged in', style: TextStyle(color: Colors.green),),
+  );
+  _scaffoldkey.currentState.showSnackBar(snackbar);
+  _formkey.currentState.reset();
+}
+
+void _showErrorSnack(String errorMsg) {
+  final snackbar = SnackBar(
+    content: Text(errorMsg, style: TextStyle(color: Colors.red),),
+  );
+  _scaffoldkey.currentState.showSnackBar(snackbar);
+  throw Exception('Error Logging in: $errorMsg');
+}
+
+void _redirectUser() {
+  Future.delayed(Duration(seconds: 2), () {
+  Navigator.pushReplacementNamed(context, '/products');
+  });
+  
 }
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldkey,
       appBar: AppBar(
         title: Text('Login'),
         
@@ -74,8 +132,8 @@ class _LoginPageState extends State<LoginPage> {
                     padding: EdgeInsets.only(top: 20.0),
                     child: Column(
                       children: <Widget>[
-                        RaisedButton(
-                          child: Text('Submit', style: Theme.of(context).textTheme.body1.copyWith(color: Colors.deepOrange),),
+                        _isSubmitting == true ? CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Theme.of(context).accentColor),) : RaisedButton(
+                          child: Text('Login', style: Theme.of(context).textTheme.body1.copyWith(color: Colors.deepOrange),),
                           elevation: 8.0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0))
