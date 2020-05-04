@@ -3,6 +3,7 @@ import 'package:inauzwa/models/app_state.dart';
 import 'package:inauzwa/pages/login.dart';
 import 'package:inauzwa/pages/productspage.dart';
 import 'package:inauzwa/pages/register.dart';
+import 'package:inauzwa/redux/actions.dart';
 import 'package:inauzwa/redux/reducers.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -25,7 +26,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Inauzwa',
       routes: {
-        '/products': (BuildContext context) => ProductsPage(),
+        '/products': (BuildContext context) => ProductsPage(
+          onInit:() {
+            StoreProvider.of<AppState>(context).dispatch(getUserAction);
+            StoreProvider.of<AppState>(context).dispatch(getProductsAction);
+            // dispatch an action(getuseraction) to grab user data
+
+          }
+        ),
         '/login': (BuildContext context) => LoginPage(),
         '/register': (BuildContext context) => RegisterPage()
       },

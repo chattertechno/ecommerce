@@ -51,6 +51,10 @@
     },
     "phonenumber": {
       "type": "integer"
+    },
+    "products": {
+      "collection": "product",
+      "via": "user"
     }
   },
   "collectionName": "users-permissions_user"

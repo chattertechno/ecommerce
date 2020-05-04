@@ -4,11 +4,14 @@ import 'package:meta/meta.dart';
 class AppState {
   final dynamic user;
 
-  AppState({ @required this.user });
+  final List<dynamic> products;
+
+  AppState({ @required this.user, @required this.products });
 
   factory AppState.initial() {
     return AppState(
-      user: null
+      user: null,
+      products: []
     );
   }
 }
