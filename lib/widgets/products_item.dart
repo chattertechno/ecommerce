@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:inauzwa/models/app_state.dart';
+import 'package:inauzwa/models/product.dart';
 
 class ProductItem extends StatelessWidget {
-  final dynamic item;
+  final Product item;
   ProductItem({ this.item });
   @override
   Widget build(BuildContext context) {
-    final String pictureUrl = 'http://192.168.10.133:1337${item['picture']['url']}';
+    final String pictureUrl = 'http://192.168.10.133:1337${item.picture['url']}';
     return GridTile(
       footer: GridTileBar(
         title: FittedBox(
           fit: BoxFit.scaleDown,
           alignment: Alignment.centerLeft,
-          child: Text(item['name'], style: TextStyle(fontSize: 20.0),),
+          child: Text(item.name, style: TextStyle(fontSize: 20.0),),
         ),
-        subtitle: Text("\$${item['price']}", style: TextStyle(fontSize: 16.0),),
+        subtitle: Text("\$${item.price}", style: TextStyle(fontSize: 16.0),),
         backgroundColor: Color(0XBB000000),
         trailing: StoreConnector<AppState, AppState>(
           converter: (store) => store.state,

@@ -59,12 +59,31 @@ class _ProductsPageState extends State<ProductsPage> {
     ),
   );
 
-  
+  int index = 0;
   
   @override
   Widget build(BuildContext context) {
+    final Orientation orientation = MediaQuery.of(context).orientation;
     return Scaffold(
       appBar: _appBar,
+      bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: index,
+        onTap: (int index) { setState(() {
+          this.index = index;
+        });
+        },
+        items: <BottomNavigationBarItem>[
+          new BottomNavigationBarItem(icon: new Icon(Icons.home),
+          title: new Text('Home'),
+          ),
+          new BottomNavigationBarItem(icon: new Icon(Icons.shop),
+          title: Text('Shop',)
+          ),
+          new BottomNavigationBarItem(icon: new Icon(Icons.search),
+          title: Text('track')
+          )
+        ],
+      ),
       body: Container(
         decoration: gradientBackground,
         child: StoreConnector<AppState, AppState>(
@@ -78,7 +97,9 @@ class _ProductsPageState extends State<ProductsPage> {
                   child: GridView.builder(
                     itemCount: state.products.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2
+                      crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
+                      crossAxisSpacing: 4.0,
+                      mainAxisSpacing: 4.0,
                     ),
                     itemBuilder: (context, index) => ProductItem(item: state.products[index])
                   ),

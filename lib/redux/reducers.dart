@@ -1,4 +1,5 @@
 import 'package:inauzwa/models/app_state.dart';
+import 'package:inauzwa/models/product.dart';
 import 'package:inauzwa/models/user.dart';
 import 'package:inauzwa/redux/actions.dart';
 
@@ -17,7 +18,7 @@ User  userReducer(User user, dynamic action) {
   return user;
 }
 
-productsReducer(products, action) {
+List<Product>productsReducer(List<Product >products, dynamic action) {
   if (action is GetProductsAction) {
     return action.products;
   }
