@@ -8,9 +8,10 @@ import 'package:inauzwa/redux/reducers.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux_logging/redux_logging.dart';
 
 void main() {
-  final store = Store<AppState>(appReducer, initialState: AppState.initial(), middleware: [thunkMiddleware]);
+  final store = Store<AppState>(appReducer, initialState: AppState.initial(), middleware: [thunkMiddleware, LoggingMiddleware.printer()]);
   runApp(MyApp(store: store));
 }
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Inauzwa',
       routes: {
-        '/products': (BuildContext context) => ProductsPage(
+        '/': (BuildContext context) => ProductsPage(
           onInit:() {
             StoreProvider.of<AppState>(context).dispatch(getUserAction);
             StoreProvider.of<AppState>(context).dispatch(getProductsAction);
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
           body1: TextStyle(fontSize: 18.0) 
         )
       ),
-      home: RegisterPage(),
+      
       
     ));
   }

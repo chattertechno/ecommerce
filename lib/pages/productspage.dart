@@ -1,9 +1,8 @@
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:inauzwa/models/app_state.dart';
+import 'package:inauzwa/redux/actions.dart';
 import 'package:inauzwa/widgets/products_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -46,12 +45,23 @@ class _ProductsPageState extends State<ProductsPage> {
       builder: (context, state) {
         return AppBar(
           centerTitle: true,
-          title: SizedBox(child: state.user != null ? Text(state.user.username) : Text(''),),
-          leading: Icon(Icons.store),
+          title: SizedBox(child: state.user != null ? Text(state.user.username) : FlatButton(
+            child: Text('Register Here', style: Theme.of(context).textTheme.body1,),
+            onPressed: () => Navigator.pushNamed(context, '/register'),
+          ),),
+          leading: state.user != null ? Icon(Icons.store) : Text(''),
           actions: <Widget>[
             Padding(padding: EdgeInsets.only(right: 12.0),
-            child: state.user != null ? IconButton(icon: Icon(Icons.exit_to_app),
-            onPressed: () => print('pressed')) : Text(''),
+            child: StoreConnector<AppState, VoidCallback>(
+              converter: (store) {
+                return () => store.dispatch(logoutUserAction);
+              },
+              builder: (_, callback) {
+                return state.user != null ? IconButton(icon: Icon(Icons.exit_to_app),
+            onPressed: callback) : Text('');
+              },
+
+            ),
             )
           ],
         );
@@ -79,7 +89,7 @@ class _ProductsPageState extends State<ProductsPage> {
           new BottomNavigationBarItem(icon: new Icon(Icons.shop),
           title: Text('Shop',)
           ),
-          new BottomNavigationBarItem(icon: new Icon(Icons.search),
+          new BottomNavigationBarItem(icon: Icon(Icons.search),
           title: Text('track')
           )
         ],

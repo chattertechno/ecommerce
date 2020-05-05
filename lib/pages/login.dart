@@ -73,7 +73,7 @@ void _showErrorSnack(String errorMsg) {
 
 void _redirectUser() {
   Future.delayed(Duration(seconds: 2), () {
-  Navigator.pushReplacementNamed(context, '/products');
+  Navigator.pushReplacementNamed(context, '/');
   });
   
 }

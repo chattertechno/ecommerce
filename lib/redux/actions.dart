@@ -38,10 +38,25 @@ ThunkAction<AppState> getProductsAction = (Store<AppState> store) async {
  store.dispatch(GetProductsAction(products));
 };
 
+ThunkAction<AppState> logoutUserAction = (Store<AppState> store) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.remove('user');
+  User user;
+  store.dispatch(LogoutUserAction(user));
+};
+
 class GetProductsAction {
   final List<Product> _products;
 
   List<Product> get products => this._products;
 
   GetProductsAction(this._products);
+}
+
+class LogoutUserAction {
+  final User _user;
+
+  User get user => this._user;
+
+  LogoutUserAction(this._user);
 }
