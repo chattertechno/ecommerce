@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inauzwa/models/app_state.dart';
+import 'package:inauzwa/pages/cart_page.dart';
 import 'package:inauzwa/pages/login.dart';
 import 'package:inauzwa/pages/productspage.dart';
 import 'package:inauzwa/pages/register.dart';
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
           }
         ),
         '/login': (BuildContext context) => LoginPage(),
-        '/register': (BuildContext context) => RegisterPage()
+        '/register': (BuildContext context) => RegisterPage(),
+        '/cart': (BuildContext context) => CartPage()
       },
       theme: ThemeData(
         brightness: Brightness.dark,

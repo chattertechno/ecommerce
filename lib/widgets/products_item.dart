@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:inauzwa/models/app_state.dart';
 import 'package:inauzwa/models/product.dart';
 import 'package:inauzwa/pages/productDetailPage.dart';
+import 'package:inauzwa/redux/actions.dart';
 
 class ProductItem extends StatelessWidget {
   final Product item;
@@ -31,7 +32,9 @@ class ProductItem extends StatelessWidget {
             converter: (store) => store.state,
             builder: (_, state) {
               return state.user != null ?
-              IconButton(icon: Icon(Icons.shopping_cart), color: Colors.white, onPressed: () => print('shit')) : Text('');
+              IconButton(icon: Icon(Icons.shopping_cart), color: Colors.white, onPressed: () {
+                StoreProvider.of<AppState>(context).dispatch(toggleCartProductAction(item));
+              }) : Text('');
             },
           ),
         ),

@@ -6,7 +6,8 @@ import 'package:inauzwa/redux/actions.dart';
 AppState appReducer(AppState state, dynamic action) {
   return AppState(
     user: userReducer(state.user, action),
-    products: productsReducer(state.products, action)
+    products: productsReducer(state.products, action),
+    cartProducts: cartProducts(state.cartProducts, action)
   );
 }
 
@@ -26,4 +27,11 @@ List<Product>productsReducer(List<Product >products, dynamic action) {
   }
 
   return products;
+}
+
+List<Product> cartProducts(List<Product> cartProduts, dynamic action) {
+  if (action is ToggleCartProductAction) {
+    return action.cartProducts;
+  }
+  return cartProduts;
 }
