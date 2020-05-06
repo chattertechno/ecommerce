@@ -5,6 +5,7 @@ import 'package:inauzwa/models/app_state.dart';
 import 'package:inauzwa/redux/actions.dart';
 import 'package:inauzwa/widgets/products_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:badges/badges.dart';
 
 final gradientBackground = BoxDecoration(
     gradient: LinearGradient(
@@ -44,6 +45,7 @@ class _ProductsPageState extends State<ProductsPage> {
     child: StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       builder: (context, state) {
+        var value = state.cartProducts.length;
         return AppBar(
           centerTitle: true,
           title: SizedBox(
@@ -58,9 +60,14 @@ class _ProductsPageState extends State<ProductsPage> {
                   ),
           ),
           leading: state.user != null
-              ? IconButton(
-                  icon: Icon(Icons.store),
-                  onPressed: () => Navigator.pushNamed(context, '/cart'),
+              ? Badge(
+                  badgeContent: Text('$value'),
+                  badgeColor: Colors.lime,
+                  showBadge: true,
+                  child: IconButton(
+                    icon: Icon(Icons.store),
+                    onPressed: () => Navigator.pushNamed(context, '/cart'),
+                  ),
                 )
               : Text(''),
           actions: <Widget>[
