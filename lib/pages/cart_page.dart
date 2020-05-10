@@ -54,6 +54,13 @@ class _CartPageState extends State<CartPage> {
         builder: (_, state) {
           return Column(
             children: <Widget>[
+              Padding(padding: EdgeInsets.only(top: 10.0)),
+              RaisedButton(
+                elevation: 8.0,
+                child: Text('Add Card'),
+                onPressed: () => print('Pressed')
+              ),
+
               Expanded(
                 child: ListView(
                   children: state.cards.map<Widget>(
